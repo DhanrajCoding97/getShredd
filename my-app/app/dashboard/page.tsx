@@ -1,4 +1,4 @@
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/supabase/server-client'
 import { redirect } from 'next/navigation'
 
 export default async function DashboardPage() {
