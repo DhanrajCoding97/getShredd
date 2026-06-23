@@ -126,8 +126,7 @@ export default function LoginPage() {
             <Button variant="outline" className='w-full'>Log in</Button>
             </FieldGroup>
         </form>
-            <Button variant="default" onClick={signInWithGoogle}>Sign in with Google <FcGoogle/> </Button>
-      
+        <Button variant="default" onClick={signInWithGoogle}>Sign in with Google <FcGoogle/> </Button>
       </div>
     </main>
     </>
