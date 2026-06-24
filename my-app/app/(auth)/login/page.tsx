@@ -16,7 +16,9 @@ import { Input } from "@/components/ui/input"
 import ShaderBackground from '@/components/ShaderBackground';
 import { login } from '@/app/actions/login';
 import { FcGoogle } from "react-icons/fc";
-
+import { getSupabaseBrowserClient } from "@/lib/supabase/browser-client";
+import { User } from "@supabase/supabase-js";
+import { useState, useEffect } from "react";
 export default function LoginPage() {
   const supabase = createClient()
 
