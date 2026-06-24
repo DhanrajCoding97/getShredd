@@ -1,15 +1,14 @@
 generator client {
   provider = "prisma-client-js"
+  output   = "../app/generated/prisma"
 }
 
 datasource db {
-  provider  = "postgresql"
-  url       = env("DATABASE_URL")
-  directUrl = env("DIRECT_URL")p
+  provider = "postgresql"
 }
 
 model Profile {
-  id               String   @id @default(uuid())
+  id               String   @id
   dailyCalorieGoal Int      @default(2000) @map("daily_calorie_goal")
   updatedAt        DateTime @updatedAt @map("updated_at")
   meals            Meal[]
