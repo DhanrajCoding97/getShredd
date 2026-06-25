@@ -19,6 +19,9 @@ import { FcGoogle } from "react-icons/fc";
 import { getSupabaseBrowserClient } from "@/lib/supabase/browser-client";
 import { User } from "@supabase/supabase-js";
 import { useState, useEffect } from "react";
+
+import SocialAuthButtons from '@/components/SocialAuthButtons';
+import { Separator } from '@/components/ui/separator';
 export default function LoginPage() {
   const supabase = createClient()
 
@@ -128,7 +131,9 @@ export default function LoginPage() {
             <Button variant="outline" className='w-full'>Log in</Button>
             </FieldGroup>
         </form>
-        <Button variant="default" onClick={signInWithGoogle}>Sign in with Google <FcGoogle/> </Button>
+        <Separator/>
+        <SocialAuthButtons />
+        {/* <Button variant="default" onClick={signInWithGoogle}>Sign in with Google <FcGoogle/> </Button> */}
       </div>
     </main>
     </>

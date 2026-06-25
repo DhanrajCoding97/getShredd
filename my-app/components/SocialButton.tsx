@@ -1,0 +1,15 @@
+import React from 'react'
+import { Button } from './ui/button';
+
+interface SocialButtonProps {
+    children: React.ReactNode;
+    action: () => void;
+}
+
+const SocialButton = ({children, action} : SocialButtonProps) => {
+  return (
+    <Button onClick={action} className='w-full' variant="custom">{children}</Button>
+  )
+}
+
+export default SocialButton
