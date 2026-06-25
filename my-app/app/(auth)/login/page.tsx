@@ -86,7 +86,7 @@ export default function LoginPage() {
     <>
     {/* <ShaderBackground/> */}
     <main className='min-h-screen grid place-content-center bg-black'>
-      <div className='px-6 py-4 h-full w-full rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-0 border border-gray-100'>
+      <div className='min-h-110 px-12 space-y-3 py-4 h-full w-full flex flex-col justify-center rounded-xl bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-0 border border-gray-100'>
         <div className='flex flex-col gap-1 items-start justify-start w-full'>
           <h1 className='text-2xl font-bold text-white'>Login to your account </h1>
           <p className='text-[#A1A1A1]'>Enter your email below to login to your account</p>
@@ -99,11 +99,12 @@ export default function LoginPage() {
                 control={form.control}
                 render={({field, fieldState}) => (
                   <Field data-invalid={fieldState.invalid}>
-                    <FieldLabel htmlFor={field.name}>Email</FieldLabel>
+                    <FieldLabel className='text-white' htmlFor={field.name}>Email</FieldLabel>
                     <Input 
                       {...field}
                       id={field.name}
                       aria-invalid={fieldState.invalid}
+                      placeholder='johndoe@gmail.com'
                     />
                     {fieldState.invalid && (
                       <FieldError errors= {[fieldState.error]}/>
@@ -116,11 +117,12 @@ export default function LoginPage() {
                 control={form.control}
                 render={({field, fieldState}) => (
                   <Field data-invalid={fieldState.invalid}>
-                    <FieldLabel htmlFor={field.name}>Password</FieldLabel>
+                    <FieldLabel className='text-white' htmlFor={field.name}>Password</FieldLabel>
                     <Input 
                       {...field}
                       id={field.name}
                       aria-invalid={fieldState.invalid}
+                      placeholder='********'
                     />
                     {fieldState.invalid && (
                       <FieldError errors= {[fieldState.error]}/>

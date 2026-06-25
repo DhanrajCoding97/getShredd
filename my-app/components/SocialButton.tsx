@@ -8,7 +8,7 @@ interface SocialButtonProps {
 
 const SocialButton = ({children, action} : SocialButtonProps) => {
   return (
-    <Button onClick={action} className='w-full' variant="custom">{children}</Button>
+    <Button onClick={action} className='w-full' variant="outline">{children}</Button>
   )
 }
 
