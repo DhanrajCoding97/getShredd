@@ -22,6 +22,8 @@ import { useState, useEffect } from "react";
 
 import SocialAuthButtons from '@/components/SocialAuthButtons';
 import { Separator } from '@/components/ui/separator';
+import GradientBorder from '@/components/GradientBorder';
+import GradientAnimationCard from '@/components/GradientAnimationCard';
 export default function LoginPage() {
   const supabase = createClient()
 
@@ -86,7 +88,8 @@ export default function LoginPage() {
     <>
     {/* <ShaderBackground/> */}
     <main className='min-h-screen grid place-content-center bg-black'>
-      <div className='min-h-110 px-12 space-y-3 py-4 h-full w-full flex flex-col justify-center rounded-xl bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-0 border border-gray-100'>
+      <GradientAnimationCard>
+      <div className='min-h-96 px-6 bg-neutral-950 space-y-3 py-4 h-full w-full flex flex-col justify-center rounded-xl '>
         <div className='flex flex-col gap-1 items-start justify-start w-full'>
           <h1 className='text-2xl font-bold text-white'>Login to your account </h1>
           <p className='text-[#A1A1A1]'>Enter your email below to login to your account</p>
@@ -137,6 +140,7 @@ export default function LoginPage() {
         <SocialAuthButtons />
         {/* <Button variant="default" onClick={signInWithGoogle}>Sign in with Google <FcGoogle/> </Button> */}
       </div>
+      </GradientAnimationCard>
     </main>
     </>
   )
