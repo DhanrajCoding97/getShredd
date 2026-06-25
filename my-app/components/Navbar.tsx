@@ -15,7 +15,7 @@ const Navbar = () => {
             </div>
             {!isAuthPage && (
             <Suspense>
-                <AuthButtons/>
+                <AuthButtons isLogout={false}/>
             </Suspense>
             )}
         </div>

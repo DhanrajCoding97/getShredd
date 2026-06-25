@@ -14,9 +14,9 @@ import {
 } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
 import ShaderBackground from '@/components/ShaderBackground';
-import { login } from '@/app/actions/login';
+// import { login } from '@/app/actions/login';
 import { FcGoogle } from "react-icons/fc";
-import { getSupabaseBrowserClient } from "@/lib/supabase/browser-client";
+// import { getSupabaseBrowserClient } from "@/lib/supabase/browser-client";
 import { User } from "@supabase/supabase-js";
 import { useState, useEffect } from "react";
 
@@ -72,14 +72,14 @@ export default function LoginPage() {
   // }
 
   async function onSubmit(data: z.infer<typeof formSchema>) {
-  const res = await login(data);
+  // const res = await (data);
 
-  if (res.success) {
-    form.reset();
-    toast.success("Logged in successfully");
-  } else {
-    toast.error(res.error ?? "Failed to log in");
-  }
+  // if (res.success) {
+  //   form.reset();
+  //   toast.success("Logged in successfully");
+  // } else {
+  //   toast.error(res.error ?? "Failed to log in");
+  // }
 }
 
   return (
