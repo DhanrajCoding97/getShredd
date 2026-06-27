@@ -1,10 +1,13 @@
 'use client'
+import Link from 'next/link';
+import SocialAuthButtons from '@/components/SocialAuthButtons';
 import { createClient } from '@/lib/supabase/client'
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Controller, useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { Button } from "@/components/ui/button"
+import { Separator } from '@/components/ui/separator';
 import {
   Field,
   FieldError,
@@ -12,11 +15,9 @@ import {
   FieldLabel,
 } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
-import SocialAuthButtons from '@/components/SocialAuthButtons';
-import { Separator } from '@/components/ui/separator';
 import GradientAnimationCard from '@/components/GradientAnimationCard';
 import MotionLink from '@/components/MotionLink';
-export default function LoginPage() {
+export default function SignUpPage() {
   const supabase = createClient()
 
   const signInWithGoogle = async () => {
@@ -81,10 +82,10 @@ export default function LoginPage() {
     {/* <ShaderBackground/> */}
     <main className='min-h-screen grid place-content-center bg-black'>
       <GradientAnimationCard>
-      <div className='min-h-96 px-6 bg-neutral-950 space-y-3 py-4 h-full w-full flex flex-col justify-center rounded-xl '>
+      <div className='min-h-96 min-w-92 px-6 bg-neutral-950 space-y-3 py-4 h-full w-full flex flex-col justify-center rounded-xl '>
         <div className='flex flex-col gap-1 items-start justify-start w-full'>
-          <h1 className='text-2xl font-bold text-white'>Login to your account </h1>
-          <p className='text-[#A1A1A1]'>Enter your email below to login to your account</p>
+          <h1 className='text-2xl font-bold text-white'>Sign Up </h1>
+          <p className='text-[#A1A1A1]'>Create a new aaccount</p>
         </div>
         
         <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -125,19 +126,19 @@ export default function LoginPage() {
                   </Field>
                 )}
               />
-            <Button variant="outline" className='w-full'>Log in</Button>
+            <Button variant="outline" className='w-full'>Sign Up</Button>
             </FieldGroup>
         </form>
         <Separator/>
         <SocialAuthButtons />
-        {/* <Link href={"/signup"} className='text-white'>Don't have an account? Sign up</Link> */}
+        {/* <Link href={"/signup"} className='text-white'>Have an account? Log in</Link> */}
         <MotionLink 
-          href="/signup"
-          className="rounded-lg px-2 py-1.5 text-white text-center "
+          href="/login"
+          className="rounded-lg px-6 py-3 text-white text-center"
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         > 
-          Don't have an account? Sign up
+          Have an account? Log in
         </MotionLink>
       </div>
       </GradientAnimationCard>
