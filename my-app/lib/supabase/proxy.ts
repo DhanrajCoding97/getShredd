@@ -50,7 +50,7 @@ export async function updateSession(request: NextRequest) {
         request.nextUrl.pathname.startsWith(route),
     );
 
-    //rprotect routes
+    //protect routes
     if (!user && iSProtectedRoute) {
         const url = request.nextUrl.clone();
         url.pathname = '/login';

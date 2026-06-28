@@ -1,10 +1,13 @@
 'use client';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Controller, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
+import { CiWarning } from 'react-icons/ci';
 import {
     Field,
     FieldError,
@@ -16,17 +19,12 @@ import SocialAuthButtons from '@/components/SocialAuthButtons';
 import { Separator } from '@/components/ui/separator';
 import GradientAnimationCard from '@/components/GradientAnimationCard';
 import MotionLink from '@/components/MotionLink';
+import { signIn } from '@/app/auth/actions';
 export default function LoginPage() {
-    const supabase = createClient();
+    const [error, SetError] = useState<string | null>(null);
 
-    const signInWithGoogle = async () => {
-        await supabase.auth.signInWithOAuth({
-            provider: 'google',
-            options: {
-                redirectTo: `${window.location.origin}/api/auth/callback`,
-            },
-        });
-    };
+    const supabase = createClient();
+    const router = useRouter();
 
     const formSchema = z.object({
         email: z
@@ -51,124 +49,117 @@ export default function LoginPage() {
         },
     });
 
-    //onSubmit function
-    // async function onSubmit(data: z.infer<typeof formSchema>) {
-    //   const res = await login
-    //   if (res.success) {
-    //     form.reset()
-    //     toast.success("logged in successfully", {
-    //       description: JSON.stringify(data,null,2),
-    //       className:"whitespace-pre-wrap font-mono"
-    //     })
-    //   } else {
-    //     toast.error("Failed to log in")
-    //   }
-    // }
-
     async function onSubmit(data: z.infer<typeof formSchema>) {
-        // const res = await (data);
-        // if (res.success) {
-        //   form.reset();
-        //   toast.success("Logged in successfully");
-        // } else {
-        //   toast.error(res.error ?? "Failed to log in");
-        // }
+        SetError(null);
+        const res = await signIn(data);
+        if (res.success) {
+            router.push('/dashboard');
+            toast.success(res.message);
+        } else {
+            SetError(res.message);
+            toast.error(res.message);
+        }
     }
 
     return (
-        <>
-            {/* <ShaderBackground/> */}
-            <main className='grid min-h-screen place-content-center bg-black'>
-                <GradientAnimationCard>
-                    <div className='flex h-full min-h-96 w-full flex-col justify-center space-y-3 rounded-xl bg-neutral-950 px-6 py-4'>
-                        <div className='flex w-full flex-col items-start justify-start gap-1'>
-                            <h1 className='text-2xl font-bold text-white'>
-                                Login to your account{' '}
-                            </h1>
-                            <p className='text-[#A1A1A1]'>
-                                Enter your email below to login to your account
+        <main className='grid min-h-screen place-content-center bg-black'>
+            <GradientAnimationCard>
+                <div className='flex h-full min-h-96 w-full flex-col justify-center space-y-4 rounded-xl bg-neutral-950 px-6 py-4'>
+                    <div className='flex w-full flex-col items-start justify-start gap-1'>
+                        <h1 className='text-2xl font-bold text-white'>
+                            Login to your account{' '}
+                        </h1>
+                        <p className='text-[#A1A1A1]'>
+                            Enter your email below to login to your account
+                        </p>
+                    </div>
+
+                    <form onSubmit={form.handleSubmit(onSubmit)}>
+                        <FieldGroup className='gap-0'>
+                            <Controller
+                                name='email'
+                                control={form.control}
+                                render={({ field, fieldState }) => (
+                                    <Field data-invalid={fieldState.invalid}>
+                                        <FieldLabel
+                                            className='text-white'
+                                            htmlFor={field.name}
+                                        >
+                                            Email
+                                        </FieldLabel>
+                                        <Input
+                                            {...field}
+                                            id={field.name}
+                                            aria-invalid={fieldState.invalid}
+                                            placeholder='johndoe@gmail.com'
+                                            className='text-white'
+                                        />
+                                        <div className='min-h-5'>
+                                            {fieldState.invalid && (
+                                                <FieldError
+                                                    errors={[fieldState.error]}
+                                                />
+                                            )}
+                                        </div>
+                                    </Field>
+                                )}
+                            />
+                            <Controller
+                                name='password'
+                                control={form.control}
+                                render={({ field, fieldState }) => (
+                                    <Field
+                                        className='mt-1'
+                                        data-invalid={fieldState.invalid}
+                                    >
+                                        <FieldLabel
+                                            className='text-white'
+                                            htmlFor={field.name}
+                                        >
+                                            Password
+                                        </FieldLabel>
+                                        <Input
+                                            {...field}
+                                            id={field.name}
+                                            aria-invalid={fieldState.invalid}
+                                            placeholder='********'
+                                            className='text-white'
+                                        />
+                                        <div className='min-h-5'>
+                                            {fieldState.invalid && (
+                                                <FieldError
+                                                    errors={[fieldState.error]}
+                                                />
+                                            )}
+                                        </div>
+                                    </Field>
+                                )}
+                            />
+                            <Button variant='outline' className='mt-1 w-full'>
+                                Log in
+                            </Button>
+                        </FieldGroup>
+                    </form>
+                    {error && (
+                        <div className='flex w-full items-center justify-center gap-2 rounded-lg bg-[#4D0218] py-1.5'>
+                            <CiWarning color='white' />
+                            <p className='flex text-sm font-semibold text-[#FFA1AD]'>
+                                {error}
                             </p>
                         </div>
-
-                        <form onSubmit={form.handleSubmit(onSubmit)}>
-                            <FieldGroup>
-                                <Controller
-                                    name='email'
-                                    control={form.control}
-                                    render={({ field, fieldState }) => (
-                                        <Field
-                                            data-invalid={fieldState.invalid}
-                                        >
-                                            <FieldLabel
-                                                className='text-white'
-                                                htmlFor={field.name}
-                                            >
-                                                Email
-                                            </FieldLabel>
-                                            <Input
-                                                {...field}
-                                                id={field.name}
-                                                aria-invalid={
-                                                    fieldState.invalid
-                                                }
-                                                placeholder='johndoe@gmail.com'
-                                            />
-                                            {fieldState.invalid && (
-                                                <FieldError
-                                                    errors={[fieldState.error]}
-                                                />
-                                            )}
-                                        </Field>
-                                    )}
-                                />
-                                <Controller
-                                    name='password'
-                                    control={form.control}
-                                    render={({ field, fieldState }) => (
-                                        <Field
-                                            data-invalid={fieldState.invalid}
-                                        >
-                                            <FieldLabel
-                                                className='text-white'
-                                                htmlFor={field.name}
-                                            >
-                                                Password
-                                            </FieldLabel>
-                                            <Input
-                                                {...field}
-                                                id={field.name}
-                                                aria-invalid={
-                                                    fieldState.invalid
-                                                }
-                                                placeholder='********'
-                                            />
-                                            {fieldState.invalid && (
-                                                <FieldError
-                                                    errors={[fieldState.error]}
-                                                />
-                                            )}
-                                        </Field>
-                                    )}
-                                />
-                                <Button variant='outline' className='w-full'>
-                                    Log in
-                                </Button>
-                            </FieldGroup>
-                        </form>
-                        <Separator />
-                        <SocialAuthButtons />
-                        {/* <Link href={"/signup"} className='text-white'>Don't have an account? Sign up</Link> */}
-                        <MotionLink
-                            href='/signup'
-                            className='rounded-lg px-2 py-1.5 text-center text-white'
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                        >
-                            Don't have an account? Sign up
-                        </MotionLink>
-                    </div>
-                </GradientAnimationCard>
-            </main>
-        </>
+                    )}
+                    <Separator label='or' />
+                    <SocialAuthButtons />
+                    <MotionLink
+                        href='/signup'
+                        className='rounded-lg px-2 py-1.5 text-center text-white'
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                    >
+                        Don't have an account? Sign up
+                    </MotionLink>
+                </div>
+            </GradientAnimationCard>
+        </main>
     );
 }
