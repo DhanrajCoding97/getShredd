@@ -4,7 +4,7 @@ const ProtectedLayout = ({ children }: { children: React.ReactNode }) => {
     return (
         <>
             <Navbar />
-            <main className='grid min-h-screen place-content-center bg-black px-4'>
+            <main className='bpx-4 grid min-h-screen place-content-center'>
                 {children}
             </main>
         </>

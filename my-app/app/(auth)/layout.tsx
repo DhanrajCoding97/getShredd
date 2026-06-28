@@ -12,7 +12,7 @@ export default function AuthLayout({
                     GetShredd
                 </Link>
             </nav>
-            <main className='grid min-h-screen place-content-center bg-black px-4'>
+            <main className='grid min-h-screen place-content-center px-4'>
                 {children}
             </main>
         </>

@@ -1,34 +1,8 @@
-// 'use client'
-// import Link from 'next/link'
-// import { Suspense } from 'react'
-// import { usePathname } from 'next/navigation'
-// import AuthButtons from '../auth/AuthButtons'
-
-// const Navbar = () => {
-//   const pathname = usePathname()
-//   const isAuthPage = pathname === '/login' || pathname == '/signup'
-//   return (
-//     <nav className='w-full flex justify-center border-b border-b-foreground/10 h-16 bg-transparent'>
-//         <div className='w-full max-w-5xl flex justify-between items-center p-3 px-5 text-sm'>
-//             <div className='flex gap-5 items-center font-semibold'>
-//                 <Link href={"/"}>GetShredd</Link>
-//             </div>
-//             {!isAuthPage && (
-//             <Suspense>
-//                 <AuthButtons is={false}/>
-//             </Suspense>
-//             )}
-//         </div>
-//     </nav>
-//   )
-// }
-
-// export default Navbar
-
 import Link from 'next/link';
 import AuthButtons from '../auth/AuthButtons';
 import { createClient } from '@/lib/supabase/server';
 import NavbarClient from './NavbarClient';
+import ThemeToggle from '../ThemeToggle';
 
 const Navbar = async () => {
     const supabase = await createClient();
@@ -39,10 +13,14 @@ const Navbar = async () => {
 
     return (
         <NavbarClient>
-            <nav className='border-b-foreground/10 flex min-h-14 w-full items-center justify-between border-b bg-white px-4'>
-                <Link href='/'>GetShredd</Link>
-
-                <AuthButtons isAuthenticated={!!user} />
+            <nav className='border-b-foreground/10 bg-background/70 flex min-h-14 w-full items-center justify-between border-b px-4 backdrop-blur-md'>
+                <Link href='/' className='font-bold text-green-700'>
+                    GetShredd
+                </Link>
+                <div className='flex'>
+                    <AuthButtons isAuthenticated={!!user} />
+                    <ThemeToggle />
+                </div>
             </nav>
         </NavbarClient>
     );

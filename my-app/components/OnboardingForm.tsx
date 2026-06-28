@@ -95,10 +95,7 @@ export default function OnboardingForm() {
                         control={form.control}
                         render={({ field, fieldState }) => (
                             <Field data-invalid={fieldState.invalid}>
-                                <FieldLabel
-                                    className='text-white'
-                                    htmlFor={field.name}
-                                >
+                                <FieldLabel htmlFor={field.name}>
                                     Email
                                 </FieldLabel>
                                 <Input
@@ -106,7 +103,6 @@ export default function OnboardingForm() {
                                     id={field.name}
                                     aria-invalid={fieldState.invalid}
                                     placeholder='john'
-                                    className='text-white'
                                 />
                                 <div className='min-h-5'>
                                     {fieldState.invalid && (
@@ -127,10 +123,7 @@ export default function OnboardingForm() {
                                 className='mt-1'
                                 data-invalid={fieldState.invalid}
                             >
-                                <FieldLabel
-                                    className='text-white'
-                                    htmlFor={field.name}
-                                >
+                                <FieldLabel htmlFor={field.name}>
                                     Age
                                 </FieldLabel>
                                 <Input
@@ -139,7 +132,6 @@ export default function OnboardingForm() {
                                     id={field.name}
                                     aria-invalid={fieldState.invalid}
                                     placeholder='18'
-                                    className='text-white'
                                 />
                                 <div className='min-h-5'>
                                     {fieldState.invalid && (
@@ -160,10 +152,7 @@ export default function OnboardingForm() {
                                 className='mt-1'
                                 data-invalid={fieldState.invalid}
                             >
-                                <FieldLabel
-                                    className='text-white'
-                                    htmlFor={field.name}
-                                >
+                                <FieldLabel htmlFor={field.name}>
                                     Gender
                                 </FieldLabel>
                                 <Select>

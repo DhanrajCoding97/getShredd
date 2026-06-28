@@ -80,10 +80,7 @@ export default function LoginPage() {
                             control={form.control}
                             render={({ field, fieldState }) => (
                                 <Field data-invalid={fieldState.invalid}>
-                                    <FieldLabel
-                                        className='text-white'
-                                        htmlFor={field.name}
-                                    >
+                                    <FieldLabel htmlFor={field.name}>
                                         Email
                                     </FieldLabel>
                                     <Input
@@ -111,10 +108,7 @@ export default function LoginPage() {
                                     className='mt-1'
                                     data-invalid={fieldState.invalid}
                                 >
-                                    <FieldLabel
-                                        className='text-white'
-                                        htmlFor={field.name}
-                                    >
+                                    <FieldLabel htmlFor={field.name}>
                                         Password
                                     </FieldLabel>
                                     <Input
