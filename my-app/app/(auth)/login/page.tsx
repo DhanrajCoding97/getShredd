@@ -62,8 +62,6 @@ export default function LoginPage() {
     }
 
     return (
-        // <main className='grid min-h-screen place-content-center bg-black'>
-        // </main>
         <GradientAnimationCard>
             <div className='flex h-full min-h-96 w-full flex-col justify-center space-y-4 rounded-xl bg-neutral-950 px-6 py-4'>
                 <div className='flex w-full flex-col items-start justify-start gap-1'>
