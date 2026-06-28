@@ -5,7 +5,6 @@ import { createClient } from '../supabase/server';
 import { onboardingSchema } from '../schemas/onboarding';
 import { redirect } from 'next/navigation';
 import { calculatorProps } from '@/types/onboarding';
-import { error } from 'console';
 
 //TDEE calculator
 function calculateGoals(data: calculatorProps) {

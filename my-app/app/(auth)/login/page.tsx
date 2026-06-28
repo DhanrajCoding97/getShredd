@@ -62,104 +62,104 @@ export default function LoginPage() {
     }
 
     return (
-        <main className='grid min-h-screen place-content-center bg-black'>
-            <GradientAnimationCard>
-                <div className='flex h-full min-h-96 w-full flex-col justify-center space-y-4 rounded-xl bg-neutral-950 px-6 py-4'>
-                    <div className='flex w-full flex-col items-start justify-start gap-1'>
-                        <h1 className='text-2xl font-bold text-white'>
-                            Login to your account{' '}
-                        </h1>
-                        <p className='text-[#A1A1A1]'>
-                            Enter your email below to login to your account
+        // <main className='grid min-h-screen place-content-center bg-black'>
+        // </main>
+        <GradientAnimationCard>
+            <div className='flex h-full min-h-96 w-full flex-col justify-center space-y-4 rounded-xl bg-neutral-950 px-6 py-4'>
+                <div className='flex w-full flex-col items-start justify-start gap-1'>
+                    <h1 className='text-2xl font-bold text-white'>
+                        Login to your account{' '}
+                    </h1>
+                    <p className='text-[#A1A1A1]'>
+                        Enter your email below to login to your account
+                    </p>
+                </div>
+
+                <form onSubmit={form.handleSubmit(onSubmit)}>
+                    <FieldGroup className='gap-0'>
+                        <Controller
+                            name='email'
+                            control={form.control}
+                            render={({ field, fieldState }) => (
+                                <Field data-invalid={fieldState.invalid}>
+                                    <FieldLabel
+                                        className='text-white'
+                                        htmlFor={field.name}
+                                    >
+                                        Email
+                                    </FieldLabel>
+                                    <Input
+                                        {...field}
+                                        id={field.name}
+                                        aria-invalid={fieldState.invalid}
+                                        placeholder='johndoe@gmail.com'
+                                        className='text-white'
+                                    />
+                                    <div className='min-h-5'>
+                                        {fieldState.invalid && (
+                                            <FieldError
+                                                errors={[fieldState.error]}
+                                            />
+                                        )}
+                                    </div>
+                                </Field>
+                            )}
+                        />
+                        <Controller
+                            name='password'
+                            control={form.control}
+                            render={({ field, fieldState }) => (
+                                <Field
+                                    className='mt-1'
+                                    data-invalid={fieldState.invalid}
+                                >
+                                    <FieldLabel
+                                        className='text-white'
+                                        htmlFor={field.name}
+                                    >
+                                        Password
+                                    </FieldLabel>
+                                    <Input
+                                        {...field}
+                                        id={field.name}
+                                        aria-invalid={fieldState.invalid}
+                                        placeholder='********'
+                                        className='text-white'
+                                    />
+                                    <div className='min-h-5'>
+                                        {fieldState.invalid && (
+                                            <FieldError
+                                                errors={[fieldState.error]}
+                                            />
+                                        )}
+                                    </div>
+                                </Field>
+                            )}
+                        />
+                        <Button variant='outline' className='mt-1 w-full'>
+                            Log in
+                        </Button>
+                    </FieldGroup>
+                </form>
+                {error && (
+                    <div className='flex w-full items-center justify-center gap-2 rounded-lg bg-[#4D0218] py-1.5'>
+                        <CiWarning color='white' />
+                        <p className='flex text-sm font-semibold text-[#FFA1AD]'>
+                            {error}
                         </p>
                     </div>
-
-                    <form onSubmit={form.handleSubmit(onSubmit)}>
-                        <FieldGroup className='gap-0'>
-                            <Controller
-                                name='email'
-                                control={form.control}
-                                render={({ field, fieldState }) => (
-                                    <Field data-invalid={fieldState.invalid}>
-                                        <FieldLabel
-                                            className='text-white'
-                                            htmlFor={field.name}
-                                        >
-                                            Email
-                                        </FieldLabel>
-                                        <Input
-                                            {...field}
-                                            id={field.name}
-                                            aria-invalid={fieldState.invalid}
-                                            placeholder='johndoe@gmail.com'
-                                            className='text-white'
-                                        />
-                                        <div className='min-h-5'>
-                                            {fieldState.invalid && (
-                                                <FieldError
-                                                    errors={[fieldState.error]}
-                                                />
-                                            )}
-                                        </div>
-                                    </Field>
-                                )}
-                            />
-                            <Controller
-                                name='password'
-                                control={form.control}
-                                render={({ field, fieldState }) => (
-                                    <Field
-                                        className='mt-1'
-                                        data-invalid={fieldState.invalid}
-                                    >
-                                        <FieldLabel
-                                            className='text-white'
-                                            htmlFor={field.name}
-                                        >
-                                            Password
-                                        </FieldLabel>
-                                        <Input
-                                            {...field}
-                                            id={field.name}
-                                            aria-invalid={fieldState.invalid}
-                                            placeholder='********'
-                                            className='text-white'
-                                        />
-                                        <div className='min-h-5'>
-                                            {fieldState.invalid && (
-                                                <FieldError
-                                                    errors={[fieldState.error]}
-                                                />
-                                            )}
-                                        </div>
-                                    </Field>
-                                )}
-                            />
-                            <Button variant='outline' className='mt-1 w-full'>
-                                Log in
-                            </Button>
-                        </FieldGroup>
-                    </form>
-                    {error && (
-                        <div className='flex w-full items-center justify-center gap-2 rounded-lg bg-[#4D0218] py-1.5'>
-                            <CiWarning color='white' />
-                            <p className='flex text-sm font-semibold text-[#FFA1AD]'>
-                                {error}
-                            </p>
-                        </div>
-                    )}
-                    <Separator label='or' />
-                    <SocialAuthButtons />
-                    <MotionLink
-                        href='/signup'
-                        className='rounded-lg px-2 py-1.5 text-center text-white'
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                    >
-                        Don't have an account? Sign up
-                    </MotionLink>
-                </div>
-            </GradientAnimationCard>
-        </main>
+                )}
+                <Separator label='or' />
+                <SocialAuthButtons />
+                <MotionLink
+                    href='/signup'
+                    className='rounded-lg px-2 py-1.5 text-center text-white'
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                >
+                    Don't have an account? Sign up
+                </MotionLink>
+            </div>
+        </GradientAnimationCard>
     );
 }
