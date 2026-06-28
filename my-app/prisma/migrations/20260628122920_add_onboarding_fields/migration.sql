@@ -1,0 +1,15 @@
+-- AlterTable
+ALTER TABLE "profiles" ADD COLUMN     "activity_level" TEXT NOT NULL DEFAULT 'moderate',
+ADD COLUMN     "age" INTEGER,
+ADD COLUMN     "daily_carbs_goal" INTEGER NOT NULL DEFAULT 200,
+ADD COLUMN     "daily_fat_goal" INTEGER NOT NULL DEFAULT 65,
+ADD COLUMN     "daily_protein_goal" INTEGER NOT NULL DEFAULT 150,
+ADD COLUMN     "gender" TEXT,
+ADD COLUMN     "goal" TEXT NOT NULL DEFAULT 'maintain',
+ADD COLUMN     "height" DOUBLE PRECISION,
+ADD COLUMN     "height_unit" TEXT NOT NULL DEFAULT 'cm',
+ADD COLUMN     "name" TEXT,
+ADD COLUMN     "onboarded" BOOLEAN NOT NULL DEFAULT false,
+ADD COLUMN     "weight" DOUBLE PRECISION,
+ADD COLUMN     "weight_unit" TEXT NOT NULL DEFAULT 'kg',
+ALTER COLUMN "updated_at" DROP DEFAULT;

@@ -9,7 +9,20 @@ datasource db {
 
 model Profile {
   id               String   @id
+  name             String?
+  age              Int?
+  weight           Float?
+  weightUnit       String   @default("kg") @map("weight_unit")
+  height           Float?
+  heightUnit       String   @default("cm") @map("height_unit")
+  gender           String?
+  activityLevel    String   @default("moderate") @map("activity_level")
+  goal             String   @default("maintain") @map("goal")
   dailyCalorieGoal Int      @default(2000) @map("daily_calorie_goal")
+  dailyProteinGoal Int      @default(150) @map("daily_protein_goal")
+  dailyCarbsGoal   Int      @default(200) @map("daily_carbs_goal")
+  dailyFatGoal     Int      @default(65) @map("daily_fat_goal")
+  onboarded        Boolean  @default(false)
   updatedAt        DateTime @updatedAt @map("updated_at")
   meals            Meal[]
 
