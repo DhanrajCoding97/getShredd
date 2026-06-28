@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import { Button } from './ui/button';
 
 interface SocialButtonProps {
@@ -6,10 +6,12 @@ interface SocialButtonProps {
     action: () => void;
 }
 
-const SocialButton = ({children, action} : SocialButtonProps) => {
-  return (
-    <Button onClick={action} className='w-full' variant="outline">{children}</Button>
-  )
-}
+const SocialButton = ({ children, action }: SocialButtonProps) => {
+    return (
+        <Button onClick={action} className='w-full' variant='outline'>
+            {children}
+        </Button>
+    );
+};
 
-export default SocialButton
+export default SocialButton;

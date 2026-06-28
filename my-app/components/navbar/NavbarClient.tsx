@@ -1,19 +1,17 @@
-'use client'
+'use client';
 
-import { usePathname } from 'next/navigation'
+import { usePathname } from 'next/navigation';
 
 export default function NavbarClient({
-  children,
+    children,
 }: {
-  children: React.ReactNode
+    children: React.ReactNode;
 }) {
-  const pathname = usePathname()
+    const pathname = usePathname();
 
-  const isAuthPage =
-    pathname === '/login' ||
-    pathname === '/signup'
+    const isAuthPage = pathname === '/login' || pathname === '/signup';
 
-  if (isAuthPage) return null
+    if (isAuthPage) return null;
 
-  return <>{children}</>
+    return <>{children}</>;
 }

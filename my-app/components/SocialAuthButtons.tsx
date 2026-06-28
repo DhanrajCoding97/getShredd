@@ -1,25 +1,25 @@
-import React from 'react'
-import { FcGoogle } from "react-icons/fc";
-import { FaFacebookF, FaGithub  } from "react-icons/fa";
-import { IconType } from "react-icons"
+import React from 'react';
+import { FcGoogle } from 'react-icons/fc';
+import { FaFacebookF, FaGithub } from 'react-icons/fa';
+import { IconType } from 'react-icons';
 import SocialButton from './SocialButton';
 import { createClient } from '@/lib/supabase/client';
 
-type provider = "google" | "facebook" | "github" 
+type provider = 'google' | 'facebook' | 'github';
 
 type providerType = {
     name: provider;
     label: string;
     icon: IconType;
     size: number;
-}
+};
 
-const providers : providerType[] = [
+const providers: providerType[] = [
     {
         name: 'google',
         label: 'Continue with Google',
         icon: FcGoogle,
-        size: 30
+        size: 30,
     },
     // {
     //     name: 'facebook',
@@ -36,30 +36,33 @@ const providers : providerType[] = [
 ];
 
 const SocialAuthButtons = () => {
-    const handleOAuthLogin = async(provider: provider) => {
-        const supabase = createClient()
+    const handleOAuthLogin = async (provider: provider) => {
+        const supabase = createClient();
         await supabase.auth.signInWithOAuth({
             provider,
             options: {
                 // redirectTo: `${location.origin}/auth/callback`,
-                 redirectTo: `${window.location.origin}/auth/callback?next=/dashboard`,
+                redirectTo: `${window.location.origin}/auth/callback?next=/dashboard`,
             },
-        })
-    }
+        });
+    };
 
     return (
         <div>
-            {providers.map((provider : providerType) => {
+            {providers.map((provider: providerType) => {
                 const Icon = provider.icon;
                 return (
-                    <SocialButton key={provider.name} action={() => handleOAuthLogin(provider.name)}>
-                        <Icon size={provider.size}/>
+                    <SocialButton
+                        key={provider.name}
+                        action={() => handleOAuthLogin(provider.name)}
+                    >
+                        <Icon size={provider.size} />
                         {provider.label}
                     </SocialButton>
-                )
+                );
             })}
         </div>
-    )
-}
+    );
+};
 
-export default SocialAuthButtons
+export default SocialAuthButtons;

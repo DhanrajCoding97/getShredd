@@ -4,10 +4,9 @@
 // import { usePathname } from 'next/navigation'
 // import AuthButtons from '../auth/AuthButtons'
 
-
 // const Navbar = () => {
 //   const pathname = usePathname()
-//   const isAuthPage = pathname === '/login' || pathname == '/signup' 
+//   const isAuthPage = pathname === '/login' || pathname == '/signup'
 //   return (
 //     <nav className='w-full flex justify-center border-b border-b-foreground/10 h-16 bg-transparent'>
 //         <div className='w-full max-w-5xl flex justify-between items-center p-3 px-5 text-sm'>
@@ -26,29 +25,27 @@
 
 // export default Navbar
 
-import Link from 'next/link'
-import AuthButtons from '../auth/AuthButtons'
-import { createClient } from '@/lib/supabase/server'
-import NavbarClient from './NavbarClient'
+import Link from 'next/link';
+import AuthButtons from '../auth/AuthButtons';
+import { createClient } from '@/lib/supabase/server';
+import NavbarClient from './NavbarClient';
 
 const Navbar = async () => {
-  const supabase = await createClient()
+    const supabase = await createClient();
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
+    const {
+        data: { user },
+    } = await supabase.auth.getUser();
 
-  return (
-    <NavbarClient>
-      <nav className='px-4 min-h-14 w-full flex items-center justify-between border-b border-b-foreground/10 bg-white'>
-        <Link href="/" >GetShredd</Link>
+    return (
+        <NavbarClient>
+            <nav className='border-b-foreground/10 flex min-h-14 w-full items-center justify-between border-b bg-white px-4'>
+                <Link href='/'>GetShredd</Link>
 
-        <AuthButtons
-          isAuthenticated={!!user}
-        />
-      </nav>
-    </NavbarClient>
-  )
-}
+                <AuthButtons isAuthenticated={!!user} />
+            </nav>
+        </NavbarClient>
+    );
+};
 
-export default Navbar
+export default Navbar;

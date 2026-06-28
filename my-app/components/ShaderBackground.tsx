@@ -1,21 +1,21 @@
-"use client";
+'use client';
 
-import dynamic from "next/dynamic";
-import { useRef, useEffect } from "react";
-import { Canvas, extend, useFrame, useThree } from "@react-three/fiber";
-import { shaderMaterial } from "@react-three/drei";
-import * as THREE from "three";
+import dynamic from 'next/dynamic';
+import { useRef, useEffect } from 'react';
+import { Canvas, extend, useFrame, useThree } from '@react-three/fiber';
+import { shaderMaterial } from '@react-three/drei';
+import * as THREE from 'three';
 
 const WaveMaterial = shaderMaterial(
-  { uTime: 0.0, uResolution: new THREE.Vector2(800, 600) },
+    { uTime: 0.0, uResolution: new THREE.Vector2(800, 600) },
 
-  // Vertex shader — clip-space quad, always fills screen
-  `void main() {
+    // Vertex shader — clip-space quad, always fills screen
+    `void main() {
      gl_Position = vec4(position.xy, 0.0, 1.0);
    }`,
 
-  // Fragment shader
-  `precision highp float;
+    // Fragment shader
+    `precision highp float;
    uniform float uTime;
    uniform vec2 uResolution;
 
@@ -50,64 +50,64 @@ const WaveMaterial = shaderMaterial(
      }
 
      gl_FragColor = color;
-   }`
+   }`,
 );
 
 extend({ WaveMaterial });
 
 type WaveMaterialImpl = THREE.ShaderMaterial & {
-  uTime: number;
-  uResolution: THREE.Vector2;
+    uTime: number;
+    uResolution: THREE.Vector2;
 };
 
-declare module "@react-three/fiber" {
-  interface ThreeElements {
-    waveMaterial: ThreeElements["shaderMaterial"] & {
-      ref?: React.Ref<WaveMaterialImpl>;
-    };
-  }
+declare module '@react-three/fiber' {
+    interface ThreeElements {
+        waveMaterial: ThreeElements['shaderMaterial'] & {
+            ref?: React.Ref<WaveMaterialImpl>;
+        };
+    }
 }
 
 function Plane() {
-  const materialRef = useRef<WaveMaterialImpl>(null!);
-  const { size } = useThree();
+    const materialRef = useRef<WaveMaterialImpl>(null!);
+    const { size } = useThree();
 
-  useEffect(() => {
-    if (materialRef.current) {
-      materialRef.current.uResolution.set(size.width, size.height);
-    }
-  }, [size]);
+    useEffect(() => {
+        if (materialRef.current) {
+            materialRef.current.uResolution.set(size.width, size.height);
+        }
+    }, [size]);
 
-  useFrame(({ clock }) => {
-    if (materialRef.current) {
-      materialRef.current.uTime = clock.elapsedTime;
-    }
-  });
+    useFrame(({ clock }) => {
+        if (materialRef.current) {
+            materialRef.current.uTime = clock.elapsedTime;
+        }
+    });
 
-  return (
-    <mesh>
-      <planeGeometry args={[2, 2]} />
-      <waveMaterial
-        ref={materialRef}
-        depthTest={false}
-        depthWrite={false}
-      />
-    </mesh>
-  );
+    return (
+        <mesh>
+            <planeGeometry args={[2, 2]} />
+            <waveMaterial
+                ref={materialRef}
+                depthTest={false}
+                depthWrite={false}
+            />
+        </mesh>
+    );
 }
 
 function ShaderBackground() {
-  return (
-    <div className="fixed inset-0 -z-10">
-      <Canvas
-        camera={{ position: [0, 0, 1] }}
-        gl={{ antialias: false, alpha: false }}
-        style={{ width: "100%", height: "100%" }}
-      >
-        <Plane />
-      </Canvas>
-    </div>
-  );
+    return (
+        <div className='fixed inset-0 -z-10'>
+            <Canvas
+                camera={{ position: [0, 0, 1] }}
+                gl={{ antialias: false, alpha: false }}
+                style={{ width: '100%', height: '100%' }}
+            >
+                <Plane />
+            </Canvas>
+        </div>
+    );
 }
 
 export default dynamic(() => Promise.resolve(ShaderBackground), { ssr: false });

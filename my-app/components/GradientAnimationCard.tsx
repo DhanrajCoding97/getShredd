@@ -1,21 +1,21 @@
-import { ReactNode } from "react";
+import { ReactNode } from 'react';
 import {
-  animate,
-  motion,
-  useMotionTemplate,
-  useMotionValue,
-} from "motion/react";
-import { useEffect } from "react";
-import { FiChevronDown, FiLoader } from "react-icons/fi";
-import { twMerge } from "tailwind-merge";
+    animate,
+    motion,
+    useMotionTemplate,
+    useMotionValue,
+} from 'motion/react';
+import { useEffect } from 'react';
+import { FiChevronDown, FiLoader } from 'react-icons/fi';
+import { twMerge } from 'tailwind-merge';
 
 type GradientBorderProps = {
-  children: ReactNode;
-  className?: string;
-  duration?: number;
+    children: ReactNode;
+    className?: string;
+    duration?: number;
 };
 type GradientAnimationCardProps = {
-  children: ReactNode;
+    children: ReactNode;
 };
 
 /**
@@ -41,49 +41,47 @@ type GradientAnimationCardProps = {
 // };
 
 const AIGradientBorder = ({
-  children,
-  className,
-  duration = 4,
+    children,
+    className,
+    duration = 4,
 }: GradientBorderProps) => {
-  const turn = useMotionValue(0);
+    const turn = useMotionValue(0);
 
-  useEffect(() => {
-    animate(turn, 1, {
-      ease: "linear",
-      duration,
-      repeat: Infinity,
-    });
-  }, [duration, turn]);
+    useEffect(() => {
+        animate(turn, 1, {
+            ease: 'linear',
+            duration,
+            repeat: Infinity,
+        });
+    }, [duration, turn]);
 
-  const gradient = useMotionTemplate`conic-gradient(from ${turn}turn, transparent 0%, #f472b600 5%, #f472b6 10%, #c084fc 18%, #818cf8 26%, #38bdf8 34%, #2dd4bf 42%, #fbbf24 46%, #fbbf2400 52%, transparent 56%)`;
+    const gradient = useMotionTemplate`conic-gradient(from ${turn}turn, transparent 0%, #f472b600 5%, #f472b6 10%, #c084fc 18%, #818cf8 26%, #38bdf8 34%, #2dd4bf 42%, #fbbf24 46%, #fbbf2400 52%, transparent 56%)`;
 
-  return (
-    <div className={twMerge("relative p-px", className)}>
-      <motion.div
-        style={{ backgroundImage: gradient }}
-        className="absolute inset-0 rounded-[inherit]"
-      />
+    return (
+        <div className={twMerge('relative p-px', className)}>
+            <motion.div
+                style={{ backgroundImage: gradient }}
+                className='absolute inset-0 rounded-[inherit]'
+            />
 
-      <div className="relative rounded-[inherit] overflow-hidden">
-        <div className="relative">{children}</div>
+            <div className='relative overflow-hidden rounded-[inherit]'>
+                <div className='relative'>{children}</div>
 
-        <motion.div
-          style={{ backgroundImage: gradient }}
-          className="ai-glow-spill-mask opacity-70 blur-2xl pointer-events-none absolute inset-[-40%] z-10 overflow-hidden"
-        ></motion.div>
-      </div>
-    </div>
-  );
+                <motion.div
+                    style={{ backgroundImage: gradient }}
+                    className='ai-glow-spill-mask pointer-events-none absolute inset-[-40%] z-10 overflow-hidden opacity-70 blur-2xl'
+                ></motion.div>
+            </div>
+        </div>
+    );
 };
 
-const GradientAnimationCard = ({children} : GradientAnimationCardProps) => {
-  return (
-    <AIGradientBorder className="mx-auto w-full max-w-sm rounded-3xl border border-neutral-800">
-      <div className="grid gap-6 bg-neutral-900">
-        {children}
-      </div>
-    </AIGradientBorder>
-  );
+const GradientAnimationCard = ({ children }: GradientAnimationCardProps) => {
+    return (
+        <AIGradientBorder className='mx-auto w-full max-w-sm rounded-3xl border border-neutral-800'>
+            <div className='grid gap-6 bg-neutral-900'>{children}</div>
+        </AIGradientBorder>
+    );
 };
 
 // const Logo = () => {
