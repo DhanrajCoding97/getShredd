@@ -8,7 +8,7 @@ export default async function OnboardingPage() {
     if (profile?.onboarded) redirect('/dashboard');
 
     return (
-        <div className='flex flex-col border-2'>
+        <div className='flex min-w-125 flex-col rounded-xl border-2 p-5'>
             <div className='space-y-1'>
                 <h1 className='text-2xl font-bold'>Set up your profile</h1>
                 <p className='text-muted-foreground text-sm'>

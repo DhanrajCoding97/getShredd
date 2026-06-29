@@ -1,16 +1,12 @@
 'use client';
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { z } from 'zod';
 import { Controller, useForm } from 'react-hook-form';
 import { CiWarning } from 'react-icons/ci';
 import { toast } from 'sonner';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { completeOnboarding } from '@/lib/actions/onboarding';
-import {
-    onboardingSchema,
-    type OnboardingSchema,
-} from '@/lib/schemas/onboarding';
+import { onboardingSchema } from '@/lib/schemas/onboarding';
 import { Button } from '@/components/ui/button';
 import {
     Field,
@@ -22,12 +18,17 @@ import { Input } from '@/components/ui/input';
 import {
     Select,
     SelectContent,
+    SelectGroup,
     SelectItem,
     SelectTrigger,
     SelectValue,
 } from './ui/select';
 
 const GENDERS = ['male', 'female', 'other'];
+
+const WEIGHT_UNITS = ['kg', 'lbs'];
+
+const HEIGHT_UNITS = ['ft', 'cm'];
 
 const ACTIVITY_LEVELS = [
     { value: 'sedentary', label: 'Sedentary', desc: 'Little or no exercise' },
@@ -55,21 +56,19 @@ export default function OnboardingForm() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
-    const router = useRouter();
-
     //form default values
     const form = useForm<z.infer<typeof onboardingSchema>>({
         resolver: zodResolver(onboardingSchema),
         defaultValues: {
             name: '',
-            age: 18,
-            gender: 'male',
-            weight: 67,
+            age: '' as unknown as number,
+            gender: undefined,
+            weight: '' as unknown as number,
             weightUnit: 'kg',
-            height: 178,
+            height: '' as unknown as number,
             heightUnit: 'cm',
-            activityLevel: 'very_active',
-            goal: 'maintain',
+            activityLevel: undefined,
+            goal: undefined,
         },
     });
 
@@ -86,66 +85,70 @@ export default function OnboardingForm() {
     }
 
     return (
-        <div>
-            {' '}
+        <div className='w-full'>
             <form onSubmit={form.handleSubmit(onSubmit)}>
                 <FieldGroup className='gap-0'>
-                    <Controller
-                        name='name'
-                        control={form.control}
-                        render={({ field, fieldState }) => (
-                            <Field data-invalid={fieldState.invalid}>
-                                <FieldLabel htmlFor={field.name}>
-                                    Email
-                                </FieldLabel>
-                                <Input
-                                    {...field}
-                                    id={field.name}
-                                    aria-invalid={fieldState.invalid}
-                                    placeholder='john'
-                                />
-                                <div className='min-h-5'>
-                                    {fieldState.invalid && (
-                                        <FieldError
-                                            errors={[fieldState.error]}
-                                        />
-                                    )}
-                                </div>
-                            </Field>
-                        )}
-                    />
-                    {/* age input */}
-                    <Controller
-                        name='age'
-                        control={form.control}
-                        render={({ field, fieldState }) => (
-                            <Field
-                                className='mt-1'
-                                data-invalid={fieldState.invalid}
-                            >
-                                <FieldLabel htmlFor={field.name}>
-                                    Age
-                                </FieldLabel>
-                                <Input
-                                    type='number'
-                                    {...field}
-                                    id={field.name}
-                                    aria-invalid={fieldState.invalid}
-                                    placeholder='18'
-                                />
-                                <div className='min-h-5'>
-                                    {fieldState.invalid && (
-                                        <FieldError
-                                            errors={[fieldState.error]}
-                                        />
-                                    )}
-                                </div>
-                            </Field>
-                        )}
-                    />
+                    {/* Name and Age group */}
+
+                    <div className='flex items-center gap-4'>
+                        {/* name input */}
+                        <Controller
+                            name='name'
+                            control={form.control}
+                            render={({ field, fieldState }) => (
+                                <Field data-invalid={fieldState.invalid}>
+                                    <FieldLabel htmlFor={field.name}>
+                                        Name
+                                    </FieldLabel>
+                                    <Input
+                                        {...field}
+                                        id={field.name}
+                                        aria-invalid={fieldState.invalid}
+                                        placeholder='john'
+                                    />
+                                    <div className='min-h-5'>
+                                        {fieldState.invalid && (
+                                            <FieldError
+                                                errors={[fieldState.error]}
+                                            />
+                                        )}
+                                    </div>
+                                </Field>
+                            )}
+                        />
+                        {/* age input */}
+                        <Controller
+                            name='age'
+                            control={form.control}
+                            render={({ field, fieldState }) => (
+                                <Field
+                                    className='mt-1'
+                                    data-invalid={fieldState.invalid}
+                                >
+                                    <FieldLabel htmlFor={field.name}>
+                                        Age
+                                    </FieldLabel>
+                                    <Input
+                                        type='number'
+                                        {...field}
+                                        id={field.name}
+                                        aria-invalid={fieldState.invalid}
+                                        placeholder='18'
+                                    />
+                                    <div className='min-h-5'>
+                                        {fieldState.invalid && (
+                                            <FieldError
+                                                errors={[fieldState.error]}
+                                            />
+                                        )}
+                                    </div>
+                                </Field>
+                            )}
+                        />
+                    </div>
                     {/* select gender */}
                     <Controller
-                        name='age'
+                        name='gender'
                         control={form.control}
                         render={({ field, fieldState }) => (
                             <Field
@@ -155,21 +158,27 @@ export default function OnboardingForm() {
                                 <FieldLabel htmlFor={field.name}>
                                     Gender
                                 </FieldLabel>
-                                <Select>
-                                    <SelectTrigger>
-                                        <SelectValue>
-                                            <SelectContent>
-                                                {GENDERS.map((gender) => (
-                                                    <SelectItem
-                                                        key={gender}
-                                                        value={gender}
-                                                    >
-                                                        {gender}
-                                                    </SelectItem>
-                                                ))}
-                                            </SelectContent>
-                                        </SelectValue>
+                                <Select
+                                    value={field.value}
+                                    onValueChange={field.onChange}
+                                >
+                                    <SelectTrigger
+                                        aria-invalid={fieldState.invalid}
+                                    >
+                                        <SelectValue placeholder='Select a gender' />
                                     </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectGroup>
+                                            {GENDERS.map((gender) => (
+                                                <SelectItem
+                                                    key={gender}
+                                                    value={gender}
+                                                >
+                                                    {gender}
+                                                </SelectItem>
+                                            ))}
+                                        </SelectGroup>
+                                    </SelectContent>
                                 </Select>
                                 <div className='min-h-5'>
                                     {fieldState.invalid && (
@@ -181,9 +190,239 @@ export default function OnboardingForm() {
                             </Field>
                         )}
                     />
-                    {/* <Button variant='outline' className='mt-1 w-full'>
-                        Log in
-                    </Button> */}
+                    {/* weight group */}
+                    <div className='flex items-center gap-4'>
+                        {/* weight input */}
+                        <Controller
+                            name='weight'
+                            control={form.control}
+                            render={({ field, fieldState }) => (
+                                <Field
+                                    className='mt-1'
+                                    data-invalid={fieldState.invalid}
+                                >
+                                    <FieldLabel htmlFor={field.name}>
+                                        Weight
+                                    </FieldLabel>
+                                    <Input
+                                        type='number'
+                                        {...field}
+                                        id={field.name}
+                                        aria-invalid={fieldState.invalid}
+                                        placeholder='67'
+                                    />
+                                    <div className='min-h-5'>
+                                        {fieldState.invalid && (
+                                            <FieldError
+                                                errors={[fieldState.error]}
+                                            />
+                                        )}
+                                    </div>
+                                </Field>
+                            )}
+                        />
+                        {/* select weight unit */}
+                        <Controller
+                            name='weightUnit'
+                            control={form.control}
+                            render={({ field, fieldState }) => (
+                                <Field
+                                    className='mt-1'
+                                    data-invalid={fieldState.invalid}
+                                >
+                                    <FieldLabel htmlFor={field.name}>
+                                        Weight unit
+                                    </FieldLabel>
+                                    <Select
+                                        value={field.value}
+                                        onValueChange={field.onChange}
+                                    >
+                                        <SelectTrigger
+                                            aria-invalid={fieldState.invalid}
+                                        >
+                                            <SelectValue placeholder='Select unit' />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            <SelectGroup>
+                                                {WEIGHT_UNITS.map((unit) => (
+                                                    <SelectItem
+                                                        key={unit}
+                                                        value={unit}
+                                                    >
+                                                        {unit}
+                                                    </SelectItem>
+                                                ))}
+                                            </SelectGroup>
+                                        </SelectContent>
+                                    </Select>
+                                    <div className='min-h-5'>
+                                        {fieldState.invalid && (
+                                            <FieldError
+                                                errors={[fieldState.error]}
+                                            />
+                                        )}
+                                    </div>
+                                </Field>
+                            )}
+                        />
+                    </div>
+                    {/* Height group */}
+                    <div className='flex items-center gap-4'>
+                        {/* Height input */}
+                        <Controller
+                            name='height'
+                            control={form.control}
+                            render={({ field, fieldState }) => (
+                                <Field
+                                    className='mt-1'
+                                    data-invalid={fieldState.invalid}
+                                >
+                                    <FieldLabel htmlFor={field.name}>
+                                        Height
+                                    </FieldLabel>
+                                    <Input
+                                        type='number'
+                                        {...field}
+                                        id={field.name}
+                                        aria-invalid={fieldState.invalid}
+                                        placeholder='178'
+                                    />
+                                    <div className='min-h-5'>
+                                        {fieldState.invalid && (
+                                            <FieldError
+                                                errors={[fieldState.error]}
+                                            />
+                                        )}
+                                    </div>
+                                </Field>
+                            )}
+                        />
+                        {/* select Height unit */}
+                        <Controller
+                            name='heightUnit'
+                            control={form.control}
+                            render={({ field, fieldState }) => (
+                                <Field
+                                    className='mt-1'
+                                    data-invalid={fieldState.invalid}
+                                >
+                                    <FieldLabel htmlFor={field.name}>
+                                        Height unit
+                                    </FieldLabel>
+                                    <Select
+                                        value={field.value}
+                                        onValueChange={field.onChange}
+                                    >
+                                        <SelectTrigger
+                                            aria-invalid={fieldState.invalid}
+                                        >
+                                            <SelectValue placeholder='Select unit' />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            <SelectGroup>
+                                                {HEIGHT_UNITS.map((unit) => (
+                                                    <SelectItem
+                                                        key={unit}
+                                                        value={unit}
+                                                    >
+                                                        {unit}
+                                                    </SelectItem>
+                                                ))}
+                                            </SelectGroup>
+                                        </SelectContent>
+                                    </Select>
+                                    <div className='min-h-5'>
+                                        {fieldState.invalid && (
+                                            <FieldError
+                                                errors={[fieldState.error]}
+                                            />
+                                        )}
+                                    </div>
+                                </Field>
+                            )}
+                        />
+                    </div>
+                    {/* Activity Level */}
+                    <Controller
+                        name='activityLevel'
+                        control={form.control}
+                        render={({ field, fieldState }) => (
+                            <Field
+                                className='mt-1'
+                                data-invalid={fieldState.invalid}
+                            >
+                                <FieldLabel>Activity level</FieldLabel>
+                                <Select
+                                    value={field.value}
+                                    onValueChange={field.onChange}
+                                >
+                                    <SelectTrigger
+                                        aria-invalid={fieldState.invalid}
+                                    >
+                                        <SelectValue placeholder='Select activity level' />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        {ACTIVITY_LEVELS.map((level) => (
+                                            <SelectItem
+                                                key={level.value}
+                                                value={level.value}
+                                            >
+                                                {level.label} — {level.desc}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+                                <div className='min-h-5'>
+                                    {fieldState.invalid && (
+                                        <FieldError
+                                            errors={[fieldState.error]}
+                                        />
+                                    )}
+                                </div>
+                            </Field>
+                        )}
+                    />
+
+                    {/* Goal */}
+                    <Controller
+                        name='goal'
+                        control={form.control}
+                        render={({ field, fieldState }) => (
+                            <Field
+                                className='mt-1'
+                                data-invalid={fieldState.invalid}
+                            >
+                                <FieldLabel>Your goal</FieldLabel>
+                                <Select
+                                    value={field.value}
+                                    onValueChange={field.onChange}
+                                >
+                                    <SelectTrigger
+                                        aria-invalid={fieldState.invalid}
+                                    >
+                                        <SelectValue placeholder='Select your goal' />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        {GOALS.map((goal) => (
+                                            <SelectItem
+                                                key={goal.value}
+                                                value={goal.value}
+                                            >
+                                                {goal.label} — {goal.desc}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+                                <div className='min-h-5'>
+                                    {fieldState.invalid && (
+                                        <FieldError
+                                            errors={[fieldState.error]}
+                                        />
+                                    )}
+                                </div>
+                            </Field>
+                        )}
+                    />
                     <button
                         type='submit'
                         disabled={loading}
