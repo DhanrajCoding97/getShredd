@@ -30,17 +30,27 @@ model Profile {
 }
 
 model Meal {
-  id        String   @id @default(uuid())
-  userId    String   @map("user_id")
-  name      String
-  calories  Int
-  proteinG  Float    @default(0) @map("protein_g")
-  carbsG    Float    @default(0) @map("carbs_g")
-  fatG      Float    @default(0) @map("fat_g")
-  mealType  String   @default("snack") @map("meal_type")
+  id     String @id @default(uuid())
+  userId String @map("user_id")
+  name   String
+
+  calories Int
+  proteinG Float @default(0) @map("protein_g")
+  carbsG   Float @default(0) @map("carbs_g")
+  fatG     Float @default(0) @map("fat_g")
+
+  mealType MealType
+
   eatenAt   DateTime @default(now()) @map("eaten_at")
   createdAt DateTime @default(now()) @map("created_at")
   profile   Profile  @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("meals")
+}
+
+enum MealType {
+  BREAKFAST
+  LUNCH
+  DINNER
+  SNACK
 }

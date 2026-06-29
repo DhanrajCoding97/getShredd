@@ -166,7 +166,12 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
-
+exports.MealType = exports.$Enums.MealType = {
+  BREAKFAST: 'BREAKFAST',
+  LUNCH: 'LUNCH',
+  DINNER: 'DINNER',
+  SNACK: 'SNACK'
+};
 
 exports.Prisma.ModelName = {
   Profile: 'Profile',

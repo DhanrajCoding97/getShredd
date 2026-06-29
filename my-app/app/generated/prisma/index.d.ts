@@ -25,6 +25,25 @@ export type Profile = $Result.DefaultSelection<Prisma.$ProfilePayload>
 export type Meal = $Result.DefaultSelection<Prisma.$MealPayload>
 
 /**
+ * Enums
+ */
+export namespace $Enums {
+  export const MealType: {
+  BREAKFAST: 'BREAKFAST',
+  LUNCH: 'LUNCH',
+  DINNER: 'DINNER',
+  SNACK: 'SNACK'
+};
+
+export type MealType = (typeof MealType)[keyof typeof MealType]
+
+}
+
+export type MealType = $Enums.MealType
+
+export const MealType: typeof $Enums.MealType
+
+/**
  * ##  Prisma Client ʲˢ
  *
  * Type-safe database client for TypeScript & Node.js
@@ -2297,7 +2316,7 @@ export namespace Prisma {
     proteinG: number | null
     carbsG: number | null
     fatG: number | null
-    mealType: string | null
+    mealType: $Enums.MealType | null
     eatenAt: Date | null
     createdAt: Date | null
   }
@@ -2310,7 +2329,7 @@ export namespace Prisma {
     proteinG: number | null
     carbsG: number | null
     fatG: number | null
-    mealType: string | null
+    mealType: $Enums.MealType | null
     eatenAt: Date | null
     createdAt: Date | null
   }
@@ -2478,7 +2497,7 @@ export namespace Prisma {
     proteinG: number
     carbsG: number
     fatG: number
-    mealType: string
+    mealType: $Enums.MealType
     eatenAt: Date
     createdAt: Date
     _count: MealCountAggregateOutputType | null
@@ -2581,7 +2600,7 @@ export namespace Prisma {
       proteinG: number
       carbsG: number
       fatG: number
-      mealType: string
+      mealType: $Enums.MealType
       eatenAt: Date
       createdAt: Date
     }, ExtArgs["result"]["meal"]>
@@ -3015,7 +3034,7 @@ export namespace Prisma {
     readonly proteinG: FieldRef<"Meal", 'Float'>
     readonly carbsG: FieldRef<"Meal", 'Float'>
     readonly fatG: FieldRef<"Meal", 'Float'>
-    readonly mealType: FieldRef<"Meal", 'String'>
+    readonly mealType: FieldRef<"Meal", 'MealType'>
     readonly eatenAt: FieldRef<"Meal", 'DateTime'>
     readonly createdAt: FieldRef<"Meal", 'DateTime'>
   }
@@ -3579,6 +3598,20 @@ export namespace Prisma {
    */
   export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
     
+
+
+  /**
+   * Reference to a field of type 'MealType'
+   */
+  export type EnumMealTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'MealType'>
+    
+
+
+  /**
+   * Reference to a field of type 'MealType[]'
+   */
+  export type ListEnumMealTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'MealType[]'>
+    
   /**
    * Deep Input Types
    */
@@ -3707,7 +3740,7 @@ export namespace Prisma {
     proteinG?: FloatFilter<"Meal"> | number
     carbsG?: FloatFilter<"Meal"> | number
     fatG?: FloatFilter<"Meal"> | number
-    mealType?: StringFilter<"Meal"> | string
+    mealType?: EnumMealTypeFilter<"Meal"> | $Enums.MealType
     eatenAt?: DateTimeFilter<"Meal"> | Date | string
     createdAt?: DateTimeFilter<"Meal"> | Date | string
     profile?: XOR<ProfileScalarRelationFilter, ProfileWhereInput>
@@ -3738,7 +3771,7 @@ export namespace Prisma {
     proteinG?: FloatFilter<"Meal"> | number
     carbsG?: FloatFilter<"Meal"> | number
     fatG?: FloatFilter<"Meal"> | number
-    mealType?: StringFilter<"Meal"> | string
+    mealType?: EnumMealTypeFilter<"Meal"> | $Enums.MealType
     eatenAt?: DateTimeFilter<"Meal"> | Date | string
     createdAt?: DateTimeFilter<"Meal"> | Date | string
     profile?: XOR<ProfileScalarRelationFilter, ProfileWhereInput>
@@ -3773,7 +3806,7 @@ export namespace Prisma {
     proteinG?: FloatWithAggregatesFilter<"Meal"> | number
     carbsG?: FloatWithAggregatesFilter<"Meal"> | number
     fatG?: FloatWithAggregatesFilter<"Meal"> | number
-    mealType?: StringWithAggregatesFilter<"Meal"> | string
+    mealType?: EnumMealTypeWithAggregatesFilter<"Meal"> | $Enums.MealType
     eatenAt?: DateTimeWithAggregatesFilter<"Meal"> | Date | string
     createdAt?: DateTimeWithAggregatesFilter<"Meal"> | Date | string
   }
@@ -3922,7 +3955,7 @@ export namespace Prisma {
     proteinG?: number
     carbsG?: number
     fatG?: number
-    mealType?: string
+    mealType: $Enums.MealType
     eatenAt?: Date | string
     createdAt?: Date | string
     profile: ProfileCreateNestedOneWithoutMealsInput
@@ -3936,7 +3969,7 @@ export namespace Prisma {
     proteinG?: number
     carbsG?: number
     fatG?: number
-    mealType?: string
+    mealType: $Enums.MealType
     eatenAt?: Date | string
     createdAt?: Date | string
   }
@@ -3948,7 +3981,7 @@ export namespace Prisma {
     proteinG?: FloatFieldUpdateOperationsInput | number
     carbsG?: FloatFieldUpdateOperationsInput | number
     fatG?: FloatFieldUpdateOperationsInput | number
-    mealType?: StringFieldUpdateOperationsInput | string
+    mealType?: EnumMealTypeFieldUpdateOperationsInput | $Enums.MealType
     eatenAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     profile?: ProfileUpdateOneRequiredWithoutMealsNestedInput
@@ -3962,7 +3995,7 @@ export namespace Prisma {
     proteinG?: FloatFieldUpdateOperationsInput | number
     carbsG?: FloatFieldUpdateOperationsInput | number
     fatG?: FloatFieldUpdateOperationsInput | number
-    mealType?: StringFieldUpdateOperationsInput | string
+    mealType?: EnumMealTypeFieldUpdateOperationsInput | $Enums.MealType
     eatenAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -3975,7 +4008,7 @@ export namespace Prisma {
     proteinG?: number
     carbsG?: number
     fatG?: number
-    mealType?: string
+    mealType: $Enums.MealType
     eatenAt?: Date | string
     createdAt?: Date | string
   }
@@ -3987,7 +4020,7 @@ export namespace Prisma {
     proteinG?: FloatFieldUpdateOperationsInput | number
     carbsG?: FloatFieldUpdateOperationsInput | number
     fatG?: FloatFieldUpdateOperationsInput | number
-    mealType?: StringFieldUpdateOperationsInput | string
+    mealType?: EnumMealTypeFieldUpdateOperationsInput | $Enums.MealType
     eatenAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -4000,7 +4033,7 @@ export namespace Prisma {
     proteinG?: FloatFieldUpdateOperationsInput | number
     carbsG?: FloatFieldUpdateOperationsInput | number
     fatG?: FloatFieldUpdateOperationsInput | number
-    mealType?: StringFieldUpdateOperationsInput | string
+    mealType?: EnumMealTypeFieldUpdateOperationsInput | $Enums.MealType
     eatenAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -4293,6 +4326,13 @@ export namespace Prisma {
     not?: NestedFloatFilter<$PrismaModel> | number
   }
 
+  export type EnumMealTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.MealType | EnumMealTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.MealType[] | ListEnumMealTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.MealType[] | ListEnumMealTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumMealTypeFilter<$PrismaModel> | $Enums.MealType
+  }
+
   export type ProfileScalarRelationFilter = {
     is?: ProfileWhereInput
     isNot?: ProfileWhereInput
@@ -4365,6 +4405,16 @@ export namespace Prisma {
     _sum?: NestedFloatFilter<$PrismaModel>
     _min?: NestedFloatFilter<$PrismaModel>
     _max?: NestedFloatFilter<$PrismaModel>
+  }
+
+  export type EnumMealTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.MealType | EnumMealTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.MealType[] | ListEnumMealTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.MealType[] | ListEnumMealTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumMealTypeWithAggregatesFilter<$PrismaModel> | $Enums.MealType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumMealTypeFilter<$PrismaModel>
+    _max?: NestedEnumMealTypeFilter<$PrismaModel>
   }
 
   export type MealCreateNestedManyWithoutProfileInput = {
@@ -4461,6 +4511,10 @@ export namespace Prisma {
     decrement?: number
     multiply?: number
     divide?: number
+  }
+
+  export type EnumMealTypeFieldUpdateOperationsInput = {
+    set?: $Enums.MealType
   }
 
   export type ProfileUpdateOneRequiredWithoutMealsNestedInput = {
@@ -4663,6 +4717,13 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type NestedEnumMealTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.MealType | EnumMealTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.MealType[] | ListEnumMealTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.MealType[] | ListEnumMealTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumMealTypeFilter<$PrismaModel> | $Enums.MealType
+  }
+
   export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel>
     in?: number[] | ListFloatFieldRefInput<$PrismaModel>
@@ -4679,6 +4740,16 @@ export namespace Prisma {
     _max?: NestedFloatFilter<$PrismaModel>
   }
 
+  export type NestedEnumMealTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.MealType | EnumMealTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.MealType[] | ListEnumMealTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.MealType[] | ListEnumMealTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumMealTypeWithAggregatesFilter<$PrismaModel> | $Enums.MealType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumMealTypeFilter<$PrismaModel>
+    _max?: NestedEnumMealTypeFilter<$PrismaModel>
+  }
+
   export type MealCreateWithoutProfileInput = {
     id?: string
     name: string
@@ -4686,7 +4757,7 @@ export namespace Prisma {
     proteinG?: number
     carbsG?: number
     fatG?: number
-    mealType?: string
+    mealType: $Enums.MealType
     eatenAt?: Date | string
     createdAt?: Date | string
   }
@@ -4698,7 +4769,7 @@ export namespace Prisma {
     proteinG?: number
     carbsG?: number
     fatG?: number
-    mealType?: string
+    mealType: $Enums.MealType
     eatenAt?: Date | string
     createdAt?: Date | string
   }
@@ -4740,7 +4811,7 @@ export namespace Prisma {
     proteinG?: FloatFilter<"Meal"> | number
     carbsG?: FloatFilter<"Meal"> | number
     fatG?: FloatFilter<"Meal"> | number
-    mealType?: StringFilter<"Meal"> | string
+    mealType?: EnumMealTypeFilter<"Meal"> | $Enums.MealType
     eatenAt?: DateTimeFilter<"Meal"> | Date | string
     createdAt?: DateTimeFilter<"Meal"> | Date | string
   }
@@ -4844,7 +4915,7 @@ export namespace Prisma {
     proteinG?: number
     carbsG?: number
     fatG?: number
-    mealType?: string
+    mealType: $Enums.MealType
     eatenAt?: Date | string
     createdAt?: Date | string
   }
@@ -4856,7 +4927,7 @@ export namespace Prisma {
     proteinG?: FloatFieldUpdateOperationsInput | number
     carbsG?: FloatFieldUpdateOperationsInput | number
     fatG?: FloatFieldUpdateOperationsInput | number
-    mealType?: StringFieldUpdateOperationsInput | string
+    mealType?: EnumMealTypeFieldUpdateOperationsInput | $Enums.MealType
     eatenAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -4868,7 +4939,7 @@ export namespace Prisma {
     proteinG?: FloatFieldUpdateOperationsInput | number
     carbsG?: FloatFieldUpdateOperationsInput | number
     fatG?: FloatFieldUpdateOperationsInput | number
-    mealType?: StringFieldUpdateOperationsInput | string
+    mealType?: EnumMealTypeFieldUpdateOperationsInput | $Enums.MealType
     eatenAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -4880,7 +4951,7 @@ export namespace Prisma {
     proteinG?: FloatFieldUpdateOperationsInput | number
     carbsG?: FloatFieldUpdateOperationsInput | number
     fatG?: FloatFieldUpdateOperationsInput | number
-    mealType?: StringFieldUpdateOperationsInput | string
+    mealType?: EnumMealTypeFieldUpdateOperationsInput | $Enums.MealType
     eatenAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

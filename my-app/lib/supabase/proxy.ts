@@ -44,7 +44,7 @@ export async function updateSession(request: NextRequest) {
 
     const user = data?.claims;
 
-    const protectectedRoutes = ['/dashboard', '/account'];
+    const protectectedRoutes = ['/dashboard', '/account', '/onboarding'];
 
     const iSProtectedRoute = protectectedRoutes.some((route) =>
         request.nextUrl.pathname.startsWith(route),

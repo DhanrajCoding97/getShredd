@@ -53,7 +53,6 @@ const GOALS = [
 ];
 
 export default function OnboardingForm() {
-    const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
     //form default values
@@ -72,13 +71,15 @@ export default function OnboardingForm() {
         },
     });
 
+    const {
+        formState: { isSubmitting },
+    } = form;
+
     async function onSubmit(data: z.infer<typeof onboardingSchema>) {
-        setLoading(true);
         setError(null);
         const res = await completeOnboarding(data);
         if (res?.error) {
             setError('Something went wrong. Please try again.');
-            setLoading(false);
             toast.error('Something went wrong. Please try again.');
         }
         // redirect happens server-side on success
@@ -159,7 +160,7 @@ export default function OnboardingForm() {
                                     Gender
                                 </FieldLabel>
                                 <Select
-                                    value={field.value}
+                                    value={field.value ?? ''}
                                     onValueChange={field.onChange}
                                 >
                                     <SelectTrigger
@@ -234,7 +235,7 @@ export default function OnboardingForm() {
                                         Weight unit
                                     </FieldLabel>
                                     <Select
-                                        value={field.value}
+                                        value={field.value ?? ''}
                                         onValueChange={field.onChange}
                                     >
                                         <SelectTrigger
@@ -310,7 +311,7 @@ export default function OnboardingForm() {
                                         Height unit
                                     </FieldLabel>
                                     <Select
-                                        value={field.value}
+                                        value={field.value ?? ''}
                                         onValueChange={field.onChange}
                                     >
                                         <SelectTrigger
@@ -353,7 +354,7 @@ export default function OnboardingForm() {
                             >
                                 <FieldLabel>Activity level</FieldLabel>
                                 <Select
-                                    value={field.value}
+                                    value={field.value ?? ''}
                                     onValueChange={field.onChange}
                                 >
                                     <SelectTrigger
@@ -394,7 +395,7 @@ export default function OnboardingForm() {
                             >
                                 <FieldLabel>Your goal</FieldLabel>
                                 <Select
-                                    value={field.value}
+                                    value={field.value ?? ''}
                                     onValueChange={field.onChange}
                                 >
                                     <SelectTrigger
@@ -423,13 +424,17 @@ export default function OnboardingForm() {
                             </Field>
                         )}
                     />
-                    <button
+                    {/* <button
                         type='submit'
                         disabled={loading}
                         className='bg-primary text-primary-foreground w-full rounded-lg py-2 text-sm font-medium transition-opacity hover:opacity-90 disabled:opacity-50'
                     >
                         {loading ? 'Saving...' : 'Calculate my goals'}
-                    </button>
+                    </button> */}
+                    <Button type='submit' disabled={isSubmitting}>
+                        {isSubmitting ? 'Saving...' : 'Calculate my goals'}
+                        <span className='ml-2 h-4 w-4 animate-spin rounded-full border-2 border-white'></span>
+                    </Button>
                 </FieldGroup>
             </form>
             {error && (
