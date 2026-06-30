@@ -1,5 +1,7 @@
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import { Button } from './ui/button';
+import Image from 'next/image';
+import { ProteinFood } from './svgs';
 
 export type MealCardProps = {
     name: string;
@@ -21,7 +23,7 @@ export default function MealCard({
     mealType,
 }: MealCardProps) {
     return (
-        <div className='flex h-34 w-fit transform flex-col rounded-xl border border-gray-100 bg-blue-900 p-4 shadow-md transition-all duration-300 ease-linear hover:-translate-y-2 hover:shadow-2xl dark:bg-gray-500'>
+        <div className='flex h-34 w-fit transform flex-col rounded-xl border border-gray-100 bg-[#0d9a5f] p-4 shadow-md transition-all duration-300 ease-linear hover:-translate-y-2 hover:shadow-2xl dark:bg-[#0d9a5f]'>
             <div className='flex items-start justify-between gap-4'>
                 <div className='flex flex-col'>
                     <span className='text-lg leading-normal font-bold'>
@@ -42,9 +44,10 @@ export default function MealCard({
             </div>
             <div className='flex items-center gap-2'>
                 <div className='flex flex-col gap-1'>
-                    <span className='text-muted text-sm font-light'>
+                    {/* <span className='text-muted text-sm font-light'>
                         Protein
-                    </span>
+                    </span> */}
+                    <ProteinFood className='h-10 w-10' />
                     <span className='text-lg leading-tight font-semibold'>
                         {proteinG}g
                     </span>

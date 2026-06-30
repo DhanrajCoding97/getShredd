@@ -3,7 +3,7 @@
     "version": "0.1.0",
     "private": true,
     "scripts": {
-        "dev": "next dev",
+        "dev": "next dev --webpack",
         "build": "next build",
         "start": "next start",
         "lint": "eslint",
@@ -41,6 +41,7 @@
         "zod": "^3.25.76"
     },
     "devDependencies": {
+        "@svgr/webpack": "^8.1.0",
         "@tailwindcss/postcss": "^4",
         "@types/node": "^20",
         "@types/react": "^19.2.17",
