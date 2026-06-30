@@ -48,7 +48,7 @@ export async function updateSession(request: NextRequest) {
         '/dashboard',
         '/account',
         '/onboarding',
-        'add-meal',
+        '/add-meal',
     ];
 
     const iSProtectedRoute = protectectedRoutes.some((route) =>

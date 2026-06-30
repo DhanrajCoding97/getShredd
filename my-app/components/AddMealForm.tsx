@@ -8,6 +8,7 @@ import { toast } from 'sonner';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { mealSchema } from '@/lib/schemas/meal';
 import { DatePicker } from '@/components/ui/date-picker';
+import { useRouter } from 'next/navigation';
 import {
     Field,
     FieldError,
@@ -23,6 +24,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from './ui/select';
+import { addMeal } from '@/lib/actions/add-meal';
 import { Button } from './ui/button';
 
 const MEAL_TYPES = ['BREAKFAST', 'LUNCH', 'DINNER', 'SNACK'];
@@ -30,6 +32,7 @@ const MEAL_TYPES = ['BREAKFAST', 'LUNCH', 'DINNER', 'SNACK'];
 function AddMealForm() {
     const [error, setError] = useState<string | null>(null);
 
+    const router = useRouter();
     //add meal form default values
     const form = useForm<z.infer<typeof mealSchema>>({
         resolver: zodResolver(mealSchema),
@@ -52,13 +55,18 @@ function AddMealForm() {
     //OnSubmit Handler
     async function onSubmit(data: z.infer<typeof mealSchema>) {
         setError(null);
-        console.log(data.eaten_at);
-        console.log(data.eaten_at instanceof Date);
-        console.log(data);
+        const res = await addMeal(data);
+        if (res.success) {
+            toast.success(res.message);
+            router.push('/dashboard');
+        }
+
+        setError(res.message);
+        toast.error(res.message);
     }
 
     return (
-        <div className='max-w-sm'>
+        <div className='w-full'>
             <form onSubmit={form.handleSubmit(onSubmit)}>
                 <FieldGroup className='gap-0'>
                     {/* meal name input */}
@@ -86,189 +94,199 @@ function AddMealForm() {
                             </Field>
                         )}
                     />
-                    {/* Calories input */}
-                    <Controller
-                        name='calories'
-                        control={form.control}
-                        render={({ field, fieldState }) => (
-                            <Field
-                                className='mt-1'
-                                data-invalid={fieldState.invalid}
-                            >
-                                <FieldLabel htmlFor={field.name}>
-                                    Calories
-                                </FieldLabel>
-                                <Input
-                                    type='number'
-                                    {...field}
-                                    id={field.name}
-                                    aria-invalid={fieldState.invalid}
-                                    placeholder='120'
-                                />
-                                <div className='min-h-5'>
-                                    {fieldState.invalid && (
-                                        <FieldError
-                                            errors={[fieldState.error]}
-                                        />
-                                    )}
-                                </div>
-                            </Field>
-                        )}
-                    />
-                    {/* Protein input */}
-                    <Controller
-                        name='protein_g'
-                        control={form.control}
-                        render={({ field, fieldState }) => (
-                            <Field
-                                className='mt-1'
-                                data-invalid={fieldState.invalid}
-                            >
-                                <FieldLabel htmlFor={field.name}>
-                                    Protein
-                                </FieldLabel>
-                                <Input
-                                    type='number'
-                                    {...field}
-                                    id={field.name}
-                                    aria-invalid={fieldState.invalid}
-                                    placeholder='30'
-                                />
-                                <div className='min-h-5'>
-                                    {fieldState.invalid && (
-                                        <FieldError
-                                            errors={[fieldState.error]}
-                                        />
-                                    )}
-                                </div>
-                            </Field>
-                        )}
-                    />
-                    {/* Carbs input */}
-                    <Controller
-                        name='carbs_g'
-                        control={form.control}
-                        render={({ field, fieldState }) => (
-                            <Field
-                                className='mt-1'
-                                data-invalid={fieldState.invalid}
-                            >
-                                <FieldLabel htmlFor={field.name}>
-                                    Carbohydrate
-                                </FieldLabel>
-                                <Input
-                                    type='number'
-                                    {...field}
-                                    id={field.name}
-                                    aria-invalid={fieldState.invalid}
-                                    placeholder='60'
-                                />
-                                <div className='min-h-5'>
-                                    {fieldState.invalid && (
-                                        <FieldError
-                                            errors={[fieldState.error]}
-                                        />
-                                    )}
-                                </div>
-                            </Field>
-                        )}
-                    />
-                    {/* Fat input */}
-                    <Controller
-                        name='fat_g'
-                        control={form.control}
-                        render={({ field, fieldState }) => (
-                            <Field
-                                className='mt-1'
-                                data-invalid={fieldState.invalid}
-                            >
-                                <FieldLabel htmlFor={field.name}>
-                                    Fat
-                                </FieldLabel>
-                                <Input
-                                    type='number'
-                                    {...field}
-                                    id={field.name}
-                                    aria-invalid={fieldState.invalid}
-                                    placeholder='10'
-                                />
-                                <div className='min-h-5'>
-                                    {fieldState.invalid && (
-                                        <FieldError
-                                            errors={[fieldState.error]}
-                                        />
-                                    )}
-                                </div>
-                            </Field>
-                        )}
-                    />
-                    {/* select meal type */}
-                    <Controller
-                        name='meal_type'
-                        control={form.control}
-                        render={({ field, fieldState }) => (
-                            <Field
-                                className='mt-1'
-                                data-invalid={fieldState.invalid}
-                            >
-                                <FieldLabel htmlFor={field.name}>
-                                    Meal type
-                                </FieldLabel>
-                                <Select
-                                    value={field.value ?? ''}
-                                    onValueChange={field.onChange}
+                    {/* group calorie and protein input larger screens */}
+                    <div className='flex flex-col gap-4 md:flex-row'>
+                        {/* Calories input */}
+                        <Controller
+                            name='calories'
+                            control={form.control}
+                            render={({ field, fieldState }) => (
+                                <Field
+                                    className='mt-1'
+                                    data-invalid={fieldState.invalid}
                                 >
-                                    <SelectTrigger
+                                    <FieldLabel htmlFor={field.name}>
+                                        Calories
+                                    </FieldLabel>
+                                    <Input
+                                        type='number'
+                                        {...field}
+                                        id={field.name}
                                         aria-invalid={fieldState.invalid}
+                                        placeholder='120'
+                                    />
+                                    <div className='min-h-5'>
+                                        {fieldState.invalid && (
+                                            <FieldError
+                                                errors={[fieldState.error]}
+                                            />
+                                        )}
+                                    </div>
+                                </Field>
+                            )}
+                        />
+                        {/* Protein input */}
+                        <Controller
+                            name='protein_g'
+                            control={form.control}
+                            render={({ field, fieldState }) => (
+                                <Field
+                                    className='mt-1'
+                                    data-invalid={fieldState.invalid}
+                                >
+                                    <FieldLabel htmlFor={field.name}>
+                                        Protein
+                                    </FieldLabel>
+                                    <Input
+                                        type='number'
+                                        {...field}
+                                        id={field.name}
+                                        aria-invalid={fieldState.invalid}
+                                        placeholder='30'
+                                    />
+                                    <div className='min-h-5'>
+                                        {fieldState.invalid && (
+                                            <FieldError
+                                                errors={[fieldState.error]}
+                                            />
+                                        )}
+                                    </div>
+                                </Field>
+                            )}
+                        />
+                    </div>
+                    {/* group Carbs n fat input on larger screens */}
+                    <div className='flex flex-col gap-4 md:flex-row'>
+                        {/* Carbs input */}
+                        <Controller
+                            name='carbs_g'
+                            control={form.control}
+                            render={({ field, fieldState }) => (
+                                <Field
+                                    className='mt-1'
+                                    data-invalid={fieldState.invalid}
+                                >
+                                    <FieldLabel htmlFor={field.name}>
+                                        Carbohydrate
+                                    </FieldLabel>
+                                    <Input
+                                        type='number'
+                                        {...field}
+                                        id={field.name}
+                                        aria-invalid={fieldState.invalid}
+                                        placeholder='60'
+                                    />
+                                    <div className='min-h-5'>
+                                        {fieldState.invalid && (
+                                            <FieldError
+                                                errors={[fieldState.error]}
+                                            />
+                                        )}
+                                    </div>
+                                </Field>
+                            )}
+                        />
+                        {/* Fat input */}
+                        <Controller
+                            name='fat_g'
+                            control={form.control}
+                            render={({ field, fieldState }) => (
+                                <Field
+                                    className='mt-1'
+                                    data-invalid={fieldState.invalid}
+                                >
+                                    <FieldLabel htmlFor={field.name}>
+                                        Fat
+                                    </FieldLabel>
+                                    <Input
+                                        type='number'
+                                        {...field}
+                                        id={field.name}
+                                        aria-invalid={fieldState.invalid}
+                                        placeholder='10'
+                                    />
+                                    <div className='min-h-5'>
+                                        {fieldState.invalid && (
+                                            <FieldError
+                                                errors={[fieldState.error]}
+                                            />
+                                        )}
+                                    </div>
+                                </Field>
+                            )}
+                        />
+                    </div>
+                    {/* group meal type and eaten at */}
+                    <div className='flex flex-col gap-4 md:flex-row'>
+                        {/* select meal type */}
+                        <Controller
+                            name='meal_type'
+                            control={form.control}
+                            render={({ field, fieldState }) => (
+                                <Field
+                                    className='mt-1'
+                                    data-invalid={fieldState.invalid}
+                                >
+                                    <FieldLabel htmlFor={field.name}>
+                                        Meal type
+                                    </FieldLabel>
+                                    <Select
+                                        value={field.value ?? ''}
+                                        onValueChange={field.onChange}
                                     >
-                                        <SelectValue placeholder='Select meal type' />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectGroup>
-                                            {MEAL_TYPES.map((mealType) => (
-                                                <SelectItem
-                                                    key={mealType}
-                                                    value={mealType}
-                                                >
-                                                    {mealType.toLocaleLowerCase()}
-                                                </SelectItem>
-                                            ))}
-                                        </SelectGroup>
-                                    </SelectContent>
-                                </Select>
-                                <div className='min-h-5'>
-                                    {fieldState.invalid && (
-                                        <FieldError
-                                            errors={[fieldState.error]}
-                                        />
-                                    )}
-                                </div>
-                            </Field>
-                        )}
-                    />
-                    {/* Date picker */}
-                    <Controller
-                        name='eaten_at'
-                        control={form.control}
-                        render={({ field, fieldState }) => (
-                            <Field data-invalid={fieldState.invalid}>
-                                <FieldLabel>Date</FieldLabel>
+                                        <SelectTrigger
+                                            aria-invalid={fieldState.invalid}
+                                        >
+                                            <SelectValue placeholder='Select meal type' />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            <SelectGroup>
+                                                {MEAL_TYPES.map((mealType) => (
+                                                    <SelectItem
+                                                        key={mealType}
+                                                        value={mealType}
+                                                    >
+                                                        {mealType.toLocaleLowerCase()}
+                                                    </SelectItem>
+                                                ))}
+                                            </SelectGroup>
+                                        </SelectContent>
+                                    </Select>
+                                    <div className='min-h-5'>
+                                        {fieldState.invalid && (
+                                            <FieldError
+                                                errors={[fieldState.error]}
+                                            />
+                                        )}
+                                    </div>
+                                </Field>
+                            )}
+                        />
+                        {/* Date picker */}
+                        <Controller
+                            name='eaten_at'
+                            control={form.control}
+                            render={({ field, fieldState }) => (
+                                <Field data-invalid={fieldState.invalid}>
+                                    <FieldLabel>Date</FieldLabel>
 
-                                <DatePicker
-                                    value={field.value}
-                                    onChange={field.onChange}
-                                />
+                                    <DatePicker
+                                        value={field.value}
+                                        onChange={field.onChange}
+                                    />
 
-                                <div className='min-h-5'>
-                                    {fieldState.invalid && (
-                                        <FieldError
-                                            errors={[fieldState.error]}
-                                        />
-                                    )}
-                                </div>
-                            </Field>
-                        )}
-                    />
+                                    <div className='min-h-5'>
+                                        {fieldState.invalid && (
+                                            <FieldError
+                                                errors={[fieldState.error]}
+                                            />
+                                        )}
+                                    </div>
+                                </Field>
+                            )}
+                        />
+                    </div>
+
                     {/* <Controller
                         name='eaten_at'
                         control={form.control}

@@ -1,4 +1,4 @@
-export type MealType = 'breakfast' | 'lunch' | 'dinner' | 'snack';
+export type MealType = 'BREAKFAST' | 'LUNCH' | 'DINNER' | 'SNACK';
 
 export interface Meal {
     id: string;
@@ -9,7 +9,7 @@ export interface Meal {
     carbs_g: number;
     fat_g: number;
     meal_type: MealType;
-    eaten_at: string;
+    eaten_at: Date;
     created_at: string;
 }
 
@@ -20,5 +20,5 @@ export interface MealFormData {
     carbs_g: number;
     fat_g: number;
     meal_type: MealType;
-    eaten_at: string;
+    eaten_at: Date;
 }

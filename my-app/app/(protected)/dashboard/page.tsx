@@ -2,6 +2,7 @@ import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
 import { prisma } from '@/lib/prisma';
 import Link from 'next/link';
+import MealCard from '@/components/MealCard';
 export default async function DashboardPage() {
     const supabase = await createClient();
     const {
@@ -38,13 +39,29 @@ export default async function DashboardPage() {
             <p>{user?.email}</p>
             {meals.length > 0 ? (
                 <ul>
-                    {meals.map((meal) => (
-                        <li key={meal.id}>{meal.name}</li>
+                    {meals.map((meal, index) => (
+                        // <div className='flex gap-2 rounded-md border border-gray-400 p-2'>
+                        //     <li key={index}>{meal.name}</li>
+                        //     <li key={index}>{meal.calories}</li>
+                        //     <li key={index}>{meal.proteinG}</li>
+                        //     <li key={index}>{meal.carbsG}</li>
+                        //     <li key={index}>{meal.fatG}</li>
+                        // </div>
+                        <MealCard
+                            key={index}
+                            name={meal.name}
+                            calories={meal.calories}
+                            proteinG={meal.proteinG}
+                            carbsG={meal.carbsG}
+                            fatG={meal.fatG}
+                            eatenAt={meal.eatenAt}
+                            mealType={meal.mealType}
+                        />
                     ))}
                 </ul>
             ) : (
                 // <p>No meals found.</p>
-                <Link href={'/add-meal'}>
+                <Link href={'/add-meal'} className=''>
                     No meals found Add your first meal
                 </Link>
             )}
