@@ -90,7 +90,6 @@ export default function OnboardingForm() {
             <form onSubmit={form.handleSubmit(onSubmit)}>
                 <FieldGroup className='gap-0'>
                     {/* Name and Age group */}
-
                     <div className='flex items-center gap-4'>
                         {/* name input */}
                         <Controller
@@ -424,13 +423,6 @@ export default function OnboardingForm() {
                             </Field>
                         )}
                     />
-                    {/* <button
-                        type='submit'
-                        disabled={loading}
-                        className='bg-primary text-primary-foreground w-full rounded-lg py-2 text-sm font-medium transition-opacity hover:opacity-90 disabled:opacity-50'
-                    >
-                        {loading ? 'Saving...' : 'Calculate my goals'}
-                    </button> */}
                     <Button type='submit' disabled={isSubmitting}>
                         {isSubmitting ? 'Saving...' : 'Calculate my goals'}
                         <span className='ml-2 h-4 w-4 animate-spin rounded-full border-2 border-white'></span>
